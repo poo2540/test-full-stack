@@ -1,0 +1,55 @@
+<html>
+    <body>
+        <input type="text" id="input_filter" name="input_filter" onchange="filter();">
+        <div id="data_temp" style="display: none;"></div>
+        <div id="data"></div>
+    </body>
+</html>
+
+<script>
+    function getData() {
+        const file = "https://api.publicapis.org/categories";
+        fetch (file).then(res => res.json()).then((response) =>    {
+            console.log(response);
+            document.getElementById('data_temp').textContent = response;
+            createTable();
+        });
+    }
+
+    function createTable(){
+        const data = document.getElementById('data_temp').textContent.split(",");
+        console.log(data);
+        const table = document.createElement('table');
+
+        for(let item=0; item<data.length; item++){
+            row = table.insertRow(item); 
+            col = row.insertCell(0);
+            col.innerHTML = data[item];
+        }
+        document.getElementById("data").appendChild(table);
+    }
+
+    function filter(){
+        const input = document.getElementById('input_filter').value;
+        const tds = document.getElementsByTagName("td");
+
+        if(input == ""){
+            for(let td=0; td<tds.length; td++){
+                tds[td].style.display = "block";
+            }
+        }
+        else{
+            for(let td=0; td<tds.length; td++){
+                let data = tds[td].textContent;
+
+                if(data == input){
+                    tds[td].style.display = "block";
+                }
+                else{
+                    tds[td].style.display = "none";
+                }
+            }
+        }
+    }
+    getData();
+</script>

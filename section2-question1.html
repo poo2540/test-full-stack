@@ -1,0 +1,112 @@
+<style>
+    #page{
+        display:flex;
+    }
+
+    #column1{
+        min-width: 200px;
+    }
+
+    #column2{
+        width: 100%;
+        min-width:100px;
+    }
+
+    #column3{
+        min-width: 300px;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    #input-field::-webkit-outer-spin-button,
+    #input-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    #column1 input[type=number] {
+    -moz-appearance: textfield;
+    }
+
+    @media screen and (max-width: 600px) { 
+        body { 
+            overflow: scroll;
+        }
+    }
+</style>
+<html>
+    <body>
+        <div id="page">
+            <div id="column1">
+                <input type="number" id="input-field" onchange="checkInput()">
+            </div>
+    
+            <div id="column2">
+                <select name="calculation_function" id="calculation-selector" onclick="checkSelector()">
+                    <option value="isPrime">isPrime</option>
+                    <option value="IsFibanacci">IsFibanacci</option>
+                  </select>
+            </div>
+    
+            <div id="column3">
+                <div id="result"></div>
+            </div>
+
+        </div>
+
+
+    </body>
+</html>
+
+<script>
+    function checkInput() {
+        let input_value = document.getElementById('input-field').value;
+
+        // check negative number
+        if(input_value < 0){
+            document.getElementById('input-field').value = 1;
+        }
+        else{
+            //check is not integer
+            if(!Number.isInteger(input_value)){
+            
+                document.getElementById('input-field').value = Math.round(input_value);
+            }
+        }
+        checkSelector();
+        
+    }
+
+    function checkSelector(){
+        let selected_value = document.getElementById('calculation-selector').value;
+        let input_value = document.getElementById('input-field').value;
+        if(selected_value == 'isPrime'){
+            const is_prime = isPrime(input_value)
+            document.getElementById('result').textContent = is_prime;
+        }
+        else if (selected_value == 'IsFibanacci') {
+            const is_fibanacci = IsFibanacci(input_value);
+            document.getElementById('result').textContent = is_fibanacci;
+        }
+    }
+
+    function isPrime(number) {
+        for(let i = 2; i < number; i++)
+            if(number % i === 0) return false;
+        return number > 1;
+    }
+
+    function IsFibanacci(number) {
+        if (isSquare(5*(number*number)-4) || isSquare(5*(number*number)+4)) {
+            return true;
+        } else { return false; }
+    }
+
+    function isSquare(number)
+    {
+        let number_tempt = parseInt(Math.sqrt(number));
+        return (number_tempt * number_tempt == number);
+    }
+
+    
+</script>
